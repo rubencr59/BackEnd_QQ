@@ -1,4 +1,4 @@
-package com.quillquest.quillquestblog;
+package com.quillquest.model;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

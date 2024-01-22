@@ -1,4 +1,4 @@
-package com.quillquest.quillquestblog.Model;
+package com.quillquest.model;
 
 public class User {
 

@@ -1,4 +1,4 @@
-package com.quillquest.quillquestblog.Model;
+package com.quillquest.model;
 
 import java.util.Date;
 
