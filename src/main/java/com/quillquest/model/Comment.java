@@ -6,6 +6,8 @@ public class Comment {
 
     public String commentText;
 
+    public long postID;
+
     public long userID;
 
     public long getCommentID() {
@@ -30,5 +32,13 @@ public class Comment {
 
     public void setUserID(long userID) {
         this.userID = userID;
+    }
+
+    public long getPostID() {
+        return postID;
+    }
+
+    public void setPostID(long postID) {
+        this.postID = postID;
     }
 }

@@ -1,18 +1,27 @@
 package com.quillquest.model;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import org.springframework.data.annotation.Id;
+
 public class User {
 
-    public long userID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long userID;
 
     public String userName;
-
-    public int age;
 
     public String email;
 
     public String password;
 
-    public long getUserID() {
+    public User( String userName,  String email, String password) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
+    public Long getUserID() {
         return userID;
     }
 
@@ -26,14 +35,6 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getEmail() {
