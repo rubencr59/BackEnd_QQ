@@ -2,7 +2,9 @@ package com.quillquest.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "post")
@@ -25,6 +27,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "userID")
     public User user;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<Comment> comments = new ArrayList<>();
 
     public Long getPostID() {
         return postID;
