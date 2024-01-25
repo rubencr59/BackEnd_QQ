@@ -1,20 +1,30 @@
 package com.quillquest.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userID")
     public Long userID;
 
+    @Column(name = "userName")
     public String userName;
 
+    @Column(name = "email")
     public String email;
 
+    @Column(name = "password")
     public String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<Post>();
 
     public User( String userName,  String email, String password) {
         this.userName = userName;

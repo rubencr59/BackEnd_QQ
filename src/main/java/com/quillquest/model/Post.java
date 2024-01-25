@@ -1,24 +1,36 @@
 package com.quillquest.model;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+@Entity
+@Table(name = "post")
 public class Post {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "postID")
     public long postID;
 
+    @Column(name = "title")
     public String title;
 
+    @Column(name = "content")
     public String content;
 
+    @Column(name = "created_date")
     public Date  created_date;
 
-    public long userID;
+    @ManyToOne
+    @JoinColumn(name = "userID")
+    public User user;
 
-    public long getPostID() {
+    public Long getPostID() {
         return postID;
     }
 
-    public void setPostID(long postID) {
+    public void setPostID(Long postID) {
         this.postID = postID;
     }
 
@@ -46,11 +58,11 @@ public class Post {
         this.created_date = created_date;
     }
 
-    public long getUserID() {
-        return userID;
+    public User getUserPost() {
+        return user;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setUserPost(User userPost) {
+        this.user = userPost ;
     }
 }

@@ -1,14 +1,27 @@
 package com.quillquest.model;
 
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "comment")
 public class Comment {
 
-    public long commentID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "commentID")
+    private long commentID;
 
-    public String commentText;
+    @Column(name = "commentText")
+    private String commentText;
 
-    public long postID;
+    @ManyToOne
+    @JoinColumn(name = "postID")
+    private Post post;
 
-    public long userID;
+    @ManyToOne
+    @JoinColumn(name = "userID")
+    private User user;
 
     public long getCommentID() {
         return commentID;
@@ -26,19 +39,19 @@ public class Comment {
         this.commentText = commentText;
     }
 
-    public long getUserID() {
-        return userID;
+    public Post getPost() {
+        return post;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
-    public long getPostID() {
-        return postID;
+    public User getUser() {
+        return user;
     }
 
-    public void setPostID(long postID) {
-        this.postID = postID;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

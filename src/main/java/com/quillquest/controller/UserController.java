@@ -29,8 +29,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody UserRegistrationRequest userRequest) {
         try {
-            userService.loginUser(userRequest);
-            return new ResponseEntity<>("Usuario logueado exitosamente", HttpStatus.OK);
+            if(userService.loginUser(userRequest)){
+                return new ResponseEntity<>("Usuario logueado exitosamente", HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>("Error al iniciar sesión", HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
             System.out.println("Error al iniciar sesión: " + e.getMessage());
         }
