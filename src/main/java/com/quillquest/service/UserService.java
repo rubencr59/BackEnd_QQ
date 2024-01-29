@@ -19,14 +19,21 @@ public class UserService {
         @Autowired
         private UserRepository userRepository;
 
-        public void registerUser(UserRegistrationRequest registerUser) {
+        public boolean registerUser(UserRegistrationRequest registerUser) {
 
             User newUser = new User(registerUser.getUsername(), registerUser.getEmail(), registerUser.getPassword());
 
 
             User savedUser = userRepository.save(newUser);
 
-            System.out.println("El usuario con id " + savedUser.getUserID() + " ha sido registrado");
+            if(savedUser != null){
+                System.out.println("El usuario con id " + savedUser.getUserID() + " ha sido registrado");
+
+                return true;
+            }else {
+                return false;
+            }
+
         }
 
         public boolean loginUser(UserRegistrationRequest loginUser) {
@@ -46,7 +53,7 @@ public class UserService {
             Optional<User> userOptional = userRepository.findById(userId);
 
             if (userOptional.isPresent()) {
-                userRepository.deleteByID(userId);
+                userRepository.deleteById(userId);
                 return true;
             } else {
                 return false;

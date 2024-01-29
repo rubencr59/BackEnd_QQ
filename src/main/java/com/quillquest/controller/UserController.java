@@ -1,6 +1,5 @@
 package com.quillquest.controller;
 
-import com.quillquest.model.User;
 import com.quillquest.model.UserRegistrationRequest;
 import com.quillquest.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -19,8 +18,11 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserRegistrationRequest userRequest) {
         try {
-            userService.registerUser(userRequest);
-            return new ResponseEntity<>("Usuario registrado exitosamente", HttpStatus.CREATED);
+            if(userService.registerUser(userRequest)){
+                return new ResponseEntity<>("Usuario registrado exitosamente", HttpStatus.CREATED);
+            }else{
+                return new ResponseEntity<>("Error al registrar el usuario", HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>("Error al registrar el usuario: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -49,16 +51,19 @@ public class UserController {
         }
     }*/
 
-   /* @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         try {
-           // User user = userService.getUser(id);
-           // return ResponseEntity.ok(user);
+            if(userService.deleteUserById(id)){
+                return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>("Error al eliminar el usuario", HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
-            System.out.println("Error al obtener usuario: " + e.getMessage());
-            return ResponseEntity.status(500).build(); // Devolver un código de error 500 en caso de error
+            System.out.println("Error al eliminar el usuario: " + e.getMessage());
         }
-    }*/
+        return null;
+    }
 
 
 
