@@ -35,6 +35,15 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Comment> comments = new ArrayList<>();
 
+    public Post(String title, String content, byte[] image , User user) {
+        this.title = title;
+        this.content = content;
+        this.image = image;
+        this.created_date = new Date();
+        this.user = user;
+
+    }
+
     public Long getPostID() {
         return postID;
     }

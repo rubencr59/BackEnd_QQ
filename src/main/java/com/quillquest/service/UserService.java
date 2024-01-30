@@ -51,6 +51,17 @@ public class UserService {
         }
     }
 
+
+    public User getUserById(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        } else {
+            return null;
+        }
+    }
+
     private UserDTO convertToDTO(User user) {
         return  new UserDTO(user.getUserName(), user.getEmail(), user.getPassword());
     }
