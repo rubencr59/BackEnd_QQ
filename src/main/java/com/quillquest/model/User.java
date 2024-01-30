@@ -30,6 +30,7 @@ public class User {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.posts = new ArrayList<Post>();
     }
     public Long getUserID() {
         return userID;

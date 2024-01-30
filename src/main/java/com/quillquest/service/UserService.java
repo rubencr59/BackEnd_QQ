@@ -16,47 +16,47 @@ import java.util.Optional;
 public class UserService {
 
 
-        @Autowired
-        private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-        public boolean registerUser(UserRegistrationRequest registerUser) {
+    public boolean registerUser(UserRegistrationRequest registerUser) {
 
-            User newUser = new User(registerUser.getUsername(), registerUser.getEmail(), registerUser.getPassword());
+        User newUser = new User(registerUser.getUsername(), registerUser.getEmail(), registerUser.getPassword());
 
 
-            User savedUser = userRepository.save(newUser);
+        User savedUser = userRepository.save(newUser);
 
-            if(savedUser != null){
-                System.out.println("El usuario con id " + savedUser.getUserID() + " ha sido registrado");
+        if(savedUser != null){
+            System.out.println("El usuario con id " + savedUser.getUserID() + " ha sido registrado");
 
-                return true;
-            }else {
-                return false;
-            }
-
+            return true;
+        }else {
+            return false;
         }
 
-        public boolean loginUser(UserRegistrationRequest loginUser) {
+    }
 
-            User searchedUser = userRepository.findByEmail(loginUser.getEmail());
+    public boolean loginUser(UserRegistrationRequest loginUser) {
 
-            return searchedUser != null;
+        User searchedUser = userRepository.findByEmail(loginUser.getEmail());
+
+        return searchedUser != null;
+    }
+
+    //  public boolean logoutUser() {
+
+
+    // }
+
+
+    public boolean deleteUserById(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        if (userOptional.isPresent()) {
+            userRepository.deleteById(userId);
+            return true;
+        } else {
+            return false;
         }
-
-  //  public boolean logoutUser() {
-
-
-   // }
-
-
-        public boolean deleteUserById(Long userId) {
-            Optional<User> userOptional = userRepository.findById(userId);
-
-            if (userOptional.isPresent()) {
-                userRepository.deleteById(userId);
-                return true;
-            } else {
-                return false;
-            }
-        }
+    }
 }

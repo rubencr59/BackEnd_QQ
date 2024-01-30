@@ -5,14 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-        User findById(long id);
+    User findById(long id);
 
-        User findByUserName(String userName);
+    User findByUserName(String userName);
 
-        User findByEmail(String email);
+    User findByEmail(String email);
 
-        User save(User user);
+    User save(User user);
 
 
-        void deleteById(long id);
+    void deleteById(long id);
 }
