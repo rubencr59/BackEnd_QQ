@@ -18,6 +18,10 @@ public class Post {
     @Column(name = "title")
     public String title;
 
+    @Lob
+    @Column(name = "image", columnDefinition = "BLOB")
+    private byte[] image;
+
     @Column(name = "content")
     public String content;
 

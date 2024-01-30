@@ -1,12 +1,19 @@
-package com.quillquest.model;
+package com.quillquest.model.DTO;
 
-public class UserRegistrationRequest {
+public class UserDTO {
 
-    public String username;
+    private String username;
 
-    public String email;
+    private String email;
 
-    public String password;
+    private String password;
+
+    public UserDTO(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
 
     public String getUsername() {
         return username;

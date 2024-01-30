@@ -1,13 +1,9 @@
 package com.quillquest.service;
 
 import com.quillquest.model.User;
-import com.quillquest.model.UserRegistrationRequest;
+import com.quillquest.model.DTO.UserDTO;
 import com.quillquest.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,9 +15,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean registerUser(UserRegistrationRequest registerUser) {
+    public Long registerUser(UserDTO registerUser) {
 
-        User newUser = new User(registerUser.getUsername(), registerUser.getEmail(), registerUser.getPassword());
+        User newUser = convertToEntity(registerUser);
 
 
         User savedUser = userRepository.save(newUser);
@@ -29,24 +25,19 @@ public class UserService {
         if(savedUser != null){
             System.out.println("El usuario con id " + savedUser.getUserID() + " ha sido registrado");
 
-            return true;
+            return savedUser.getUserID();
         }else {
-            return false;
+            return null;
         }
 
     }
 
-    public boolean loginUser(UserRegistrationRequest loginUser) {
+    public boolean loginUser(UserDTO loginUser) {
 
         User searchedUser = userRepository.findByEmail(loginUser.getEmail());
 
         return searchedUser != null;
     }
-
-    //  public boolean logoutUser() {
-
-
-    // }
 
 
     public boolean deleteUserById(Long userId) {
@@ -58,5 +49,14 @@ public class UserService {
         } else {
             return false;
         }
+    }
+
+    private UserDTO convertToDTO(User user) {
+        return  new UserDTO(user.getUserName(), user.getEmail(), user.getPassword());
+    }
+
+    private User convertToEntity(UserDTO userDTO) {
+
+        return new User(userDTO.getUsername(), userDTO.getEmail(), userDTO.getPassword());
     }
 }

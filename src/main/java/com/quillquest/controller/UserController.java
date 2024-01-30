@@ -1,6 +1,6 @@
 package com.quillquest.controller;
 
-import com.quillquest.model.UserRegistrationRequest;
+import com.quillquest.model.DTO.UserDTO;
 import com.quillquest.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,20 +16,23 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserRegistrationRequest userRequest) {
+    public ResponseEntity<Long> registerUser(@RequestBody UserDTO userRequest) {
         try {
-            if(userService.registerUser(userRequest)){
-                return new ResponseEntity<>("Usuario registrado exitosamente", HttpStatus.CREATED);
+
+            Long idUser = userService.registerUser(userRequest);
+
+            if(idUser != null){
+                return new ResponseEntity<>(idUser, HttpStatus.CREATED);
             }else{
-                return new ResponseEntity<>("Error al registrar el usuario", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al registrar el usuario: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserRegistrationRequest userRequest) {
+    public ResponseEntity<String> loginUser(@RequestBody UserDTO userRequest) {
         try {
             if(userService.loginUser(userRequest)){
                 return new ResponseEntity<>("Usuario logueado exitosamente", HttpStatus.OK);

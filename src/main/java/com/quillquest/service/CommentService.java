@@ -19,10 +19,6 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
-    //Obtener comentario por su ID
-    public Optional<Comment> getCommentById(Long commentId) {
-        return commentRepository.findById(commentId);
-    }
 
     //Obtener comentario por id de usuario
     public List<Comment> getCommentsByUser(Long userId) {
