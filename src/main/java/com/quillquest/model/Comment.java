@@ -23,6 +23,15 @@ public class Comment {
     @JoinColumn(name = "userID")
     private User user;
 
+    public Comment() {
+    }
+
+    public Comment(String commentText, Post post, User user) {
+        this.commentText = commentText;
+        this.post = post;
+        this.user = user;
+    }
+
     public long getCommentID() {
         return commentID;
     }

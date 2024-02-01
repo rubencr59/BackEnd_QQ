@@ -6,11 +6,11 @@ public class PostDTO {
 
     private String content;
 
-    private byte[] image;
+    private String image;
 
     private Long userId;
 
-    public PostDTO(String title, String content, byte[] image, Long userId) {
+    public PostDTO(String title, String content, String image, Long userId) {
         this.title = title;
         this.content = content;
         this.image = image;
@@ -33,11 +33,11 @@ public class PostDTO {
         this.content = content;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

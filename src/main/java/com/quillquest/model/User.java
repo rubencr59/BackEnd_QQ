@@ -26,6 +26,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<Post>();
 
+    public User() {
+    }
+
     public User( String userName,  String email, String password) {
         this.userName = userName;
         this.email = email;
