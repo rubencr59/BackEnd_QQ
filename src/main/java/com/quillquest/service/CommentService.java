@@ -1,12 +1,14 @@
 package com.quillquest.service;
 
-import com.quillquest.model.Comment;
+import com.quillquest.model.Entities.Comment;
+import com.quillquest.model.Response.CommentResponse;
+import com.quillquest.model.Response.PostResponse;
+import com.quillquest.model.Response.UserResponse;
 import com.quillquest.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -39,6 +41,11 @@ public class CommentService {
     //Eliminar un comentario
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+    public CommentResponse convertToResponse(Comment comment) {
+        UserResponse userResponse = new UserResponse(comment.getUser().getUserID(),comment.getUser().getUserName());
+        return new CommentResponse(comment.getCommentID(),comment.getCommentText(), userResponse);
     }
 
 }

@@ -1,15 +1,16 @@
 package com.quillquest.service;
 
 import com.quillquest.model.DTO.PostDTO;
-import com.quillquest.model.DTO.PostResponseDTO;
-import com.quillquest.model.Post;
-import com.quillquest.model.User;
+import com.quillquest.model.Entities.Post;
+import com.quillquest.model.Entities.User;
+import com.quillquest.model.Response.CommentResponse;
+import com.quillquest.model.Response.PostResponse;
+import com.quillquest.model.Response.UserResponse;
 import com.quillquest.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +22,12 @@ public class PostService {
 
     private UserService userService;
 
+    private ImageService imageService;
 
-    public PostService(UserService userService) {
+
+    public PostService(UserService userService, ImageService imageService) {
         this.userService = userService;
+        this.imageService = imageService;
     }
 
     public Long createPost(PostDTO post) {
@@ -55,10 +59,10 @@ public class PostService {
         }
     }
 
-    public List<PostResponseDTO> getRandomPostsOrderByDate(int limit) {
+    public List<PostResponse> getRandomPostsOrderByDate(int limit) {
         List<Post> randomPosts = postRepository.findPostsOrderByDate();
 
-        List<PostResponseDTO> randomPostsDTO =  new ArrayList<PostResponseDTO>();
+        List<PostResponse> randomPostsDTO =  new ArrayList<PostResponse>();
 
         for (Post post: randomPosts) {
             randomPostsDTO.add(convertToDTO(post));
@@ -75,10 +79,23 @@ public class PostService {
         return posts;
     }
 
-    public PostResponseDTO convertToDTO(Post post) {
-        PostResponseDTO postResponseDTO = new PostResponseDTO(post.getPostID(), post.getTitle(), post.getContent(), post.getCreated_date(), post.getUser().getUserID(), post.getUser().getUserName(), post.getComments());
+    public PostResponse convertToDTO(Post post) {
 
-        return postResponseDTO;
+        UserResponse userResponse = new UserResponse(post.getUser().getUserID(), post.getUser().getUserName());
+
+        String imageToBase64 = ImageService.convertToBase64(post.getImage());
+
+        List<CommentResponse> commentResponses = new ArrayList<CommentResponse>();
+
+        for (int i = 0; i < post.getComments().size(); i++) {
+            CommentResponse commentResponse = new CommentResponse(post.getComments().get(i).getCommentID(), post.getComments().get(i).getCommentText(), new UserResponse(post.getComments().get(i).getUser().getUserID(), post.getComments().get(i).getUser().getUserName()));
+            commentResponses.add(commentResponse);
+        }
+
+        PostResponse postResponse = new PostResponse(post.getPostID(), post.getTitle(), post.getContent(), post.getCreated_date(),imageToBase64,userResponse,  commentResponses);
+
+
+        return postResponse;
     }
 
 
@@ -86,7 +103,7 @@ public class PostService {
 
         User user = userService.getUserById(postDTO.getUserId());
 
-        byte[] imageBLOB = ImageService.convertBase64(postDTO.getImage());
+        byte[] imageBLOB = ImageService.converttoBlob(postDTO.getImage());
 
         Post post = new Post(postDTO.getTitle(), postDTO.getContent(), imageBLOB, user);
 

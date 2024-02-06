@@ -1,6 +1,8 @@
 package com.quillquest.controller;
 
 import com.quillquest.model.DTO.UserDTO;
+import com.quillquest.model.Response.DeleteUserResponse;
+import com.quillquest.model.Response.UserResponse;
 import com.quillquest.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +18,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Long> registerUser(@RequestBody UserDTO userRequest) {
+    public ResponseEntity<UserResponse> registerUser(@RequestBody UserDTO userRequest) {
         try {
 
-            Long idUser = userService.registerUser(userRequest);
+            UserResponse newUserResponse = userService.registerUser(userRequest);
 
-            if(idUser != null){
-                return new ResponseEntity<>(idUser, HttpStatus.CREATED);
+            if(newUserResponse != null){
+                return new ResponseEntity<>(newUserResponse, HttpStatus.CREATED);
             }else{
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -32,12 +34,15 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserDTO userRequest) {
+    public ResponseEntity<UserResponse> loginUser(@RequestBody UserDTO userRequest) {
         try {
-            if(userService.loginUser(userRequest)){
-                return new ResponseEntity<>("Usuario logueado exitosamente", HttpStatus.OK);
+
+            UserResponse loginUser = userService.loginUser(userRequest);
+
+            if(loginUser != null){
+                return new ResponseEntity<>(loginUser, HttpStatus.OK);
             }else{
-                return new ResponseEntity<>("Error al iniciar sesión", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception e) {
             System.out.println("Error al iniciar sesión: " + e.getMessage());
@@ -55,12 +60,21 @@ public class UserController {
     }*/
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<DeleteUserResponse> deleteUser(@PathVariable Long id) {
         try {
+
+
+
             if(userService.deleteUserById(id)){
-                return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
+
+                DeleteUserResponse deleteUserResponse = new DeleteUserResponse(true, "Usuario eliminado exitosamente");
+
+                return new ResponseEntity<>(deleteUserResponse, HttpStatus.OK);
             }else{
-                return new ResponseEntity<>("Error al eliminar el usuario", HttpStatus.BAD_REQUEST);
+
+                DeleteUserResponse deleteUserResponse = new DeleteUserResponse(false, "No ha sido eliminado el usuario");
+
+                return new ResponseEntity<>(deleteUserResponse, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
             System.out.println("Error al eliminar el usuario: " + e.getMessage());

@@ -1,14 +1,12 @@
 package com.quillquest.controller;
 
-import com.quillquest.model.Comment;
+import com.quillquest.model.Entities.Comment;
 import com.quillquest.service.CommentService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/quillquest/api/comments")

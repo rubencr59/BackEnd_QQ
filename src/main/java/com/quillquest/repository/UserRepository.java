@@ -1,7 +1,9 @@
 package com.quillquest.repository;
 
-import com.quillquest.model.User;
+import com.quillquest.model.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -9,7 +11,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUserName(String userName);
 
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
     User save(User user);
 

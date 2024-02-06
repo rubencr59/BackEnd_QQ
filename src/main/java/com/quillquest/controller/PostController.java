@@ -1,11 +1,9 @@
 package com.quillquest.controller;
 
 import com.quillquest.model.DTO.PostDTO;
-import com.quillquest.model.DTO.PostResponseDTO;
-import com.quillquest.model.Post;
-import com.quillquest.model.User;
+import com.quillquest.model.Entities.Post;
+import com.quillquest.model.Response.PostResponse;
 import com.quillquest.service.PostService;
-import com.quillquest.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,10 +46,12 @@ public class PostController {
     }
 
     @GetMapping("/getPostsRandom/{limit}")
-    public ResponseEntity<List<PostResponseDTO>> getPostsRandom(@PathVariable int limit) {
+    public ResponseEntity<List<PostResponse>> getPostsRandom(@PathVariable int limit) {
         try {
-            List<PostResponseDTO> randomPosts = postService.getRandomPostsOrderByDate(limit);
-            return ResponseEntity.ok(randomPosts);
+            List<PostResponse> randomPosts = postService.getRandomPostsOrderByDate(limit);
+
+            return new ResponseEntity<>(randomPosts, HttpStatus.OK);
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }

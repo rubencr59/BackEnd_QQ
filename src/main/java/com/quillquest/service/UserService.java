@@ -1,7 +1,8 @@
 package com.quillquest.service;
 
-import com.quillquest.model.User;
+import com.quillquest.model.Entities.User;
 import com.quillquest.model.DTO.UserDTO;
+import com.quillquest.model.Response.UserResponse;
 import com.quillquest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Long registerUser(UserDTO registerUser) {
+    public UserResponse registerUser(UserDTO registerUser) {
 
         User newUser = convertToEntity(registerUser);
 
@@ -25,18 +26,34 @@ public class UserService {
         if(savedUser != null){
             System.out.println("El usuario con id " + savedUser.getUserID() + " ha sido registrado");
 
-            return savedUser.getUserID();
+            UserResponse userResponse = new UserResponse(savedUser.getUserID(), savedUser.getUserName());
+
+            return userResponse;
         }else {
             return null;
         }
 
     }
 
-    public boolean loginUser(UserDTO loginUser) {
+    public UserResponse loginUser(UserDTO loginUser) {
 
-        User searchedUser = userRepository.findByEmail(loginUser.getEmail());
+        Optional<User> userOptional = userRepository.findByEmail(loginUser.getEmail());
 
-        return searchedUser != null;
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            if (user.getPassword().equals(loginUser.getPassword())) {
+                System.out.println("El usuario con id " + user.getUserID() + " ha iniciado sesión");
+
+                UserResponse userResponse = new UserResponse(user.getUserID(), user.getUserName());
+
+                return userResponse;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
 

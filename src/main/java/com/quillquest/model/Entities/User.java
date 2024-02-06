@@ -1,4 +1,4 @@
-package com.quillquest.model;
+package com.quillquest.model.Entities;
 
 import jakarta.persistence.*;
 

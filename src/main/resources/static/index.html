@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuillQuest Blog</title>
+</head>
+<body>
+
+<h1>QuillQuest Blog</h1>
+
+<div id="postList">
+    <!-- Aquí se mostrarán los posts -->
+</div>
+
+<script>
+        // Lógica JavaScript para consumir la API REST
+
+        // Endpoint de la API
+        const apiEndpoint = 'http://localhost:8080/quillquest/api';
+
+        // Función para obtener y mostrar los posts
+        async function fetchAndDisplayPosts() {
+            try {
+                const response = await fetch(`${apiEndpoint}/post/getPostsRandom/5`);
+                const posts = await response.json();
+
+                // Limpiar la lista de posts
+                document.getElementById('postList').innerHTML = '';
+
+                // Mostrar cada post en la lista
+                posts.forEach(post => {
+                    const postElement = document.createElement('div');
+                    postElement.innerHTML = `
+                        <h2>${post.title}</h2>
+                        <p>${post.content}</p>
+                        <p>Created by: ${post.user.userName}</p>
+                        <img src="data:image/png;base64,${post.imageBase64}" alt="Post Image" style="max-width: 300px;">
+                        <hr>
+                    `;
+                    document.getElementById('postList').appendChild(postElement);
+                });
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        }
+
+        // Llamar a la función al cargar la página
+        window.onload = fetchAndDisplayPosts;
+    </script>
+
+</body>
+</html>

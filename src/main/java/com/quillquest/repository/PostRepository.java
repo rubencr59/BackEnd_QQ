@@ -1,6 +1,6 @@
 package com.quillquest.repository;
 
-import com.quillquest.model.Post;
+import com.quillquest.model.Entities.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
