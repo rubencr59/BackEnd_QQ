@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/quillquest/api/post")
+@CrossOrigin(origins = "http://localhost:8100", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, allowedHeaders = "*")
 public class PostController {
 
     public final PostService postService;
@@ -45,10 +46,15 @@ public class PostController {
         }
     }
 
-    @GetMapping("/getPostsRandom/{limit}")
-    public ResponseEntity<List<PostResponse>> getPostsRandom(@PathVariable int limit) {
+
+    @GetMapping("/getPostsRandom/{page}/{pageSize}/{skip}")
+    public ResponseEntity<List<PostResponse>> getPostsRandom(
+            @PathVariable int page,
+            @PathVariable int pageSize,
+            @PathVariable int skip
+    ) {
         try {
-            List<PostResponse> randomPosts = postService.getRandomPostsOrderByDate(limit);
+            List<PostResponse> randomPosts = postService.getRandomPostsOrderByDate(page, pageSize, skip);
 
             return new ResponseEntity<>(randomPosts, HttpStatus.OK);
 
@@ -56,6 +62,7 @@ public class PostController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
 
     @GetMapping("/getPostsByUser/{userId}")
     public ResponseEntity<List<Post>> getPostsByUser(@PathVariable Long userId) {

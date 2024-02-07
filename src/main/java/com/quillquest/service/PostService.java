@@ -31,9 +31,6 @@ public class PostService {
     }
 
     public Long createPost(PostDTO post) {
-
-        //Si no existe ese usuario que sea null
-
         if(userService.getUserById(post.getUserId()) == null){
             return null;
         }
@@ -59,19 +56,23 @@ public class PostService {
         }
     }
 
-    public List<PostResponse> getRandomPostsOrderByDate(int limit) {
-        List<Post> randomPosts = postRepository.findPostsOrderByDate();
+    public List<PostResponse> getRandomPostsOrderByDate(int page, int pageSize, int skip) {
+        // Calcular el índice de inicio para la paginación
+        int startIndex = (page - 1) * pageSize + skip;
 
-        List<PostResponse> randomPostsDTO =  new ArrayList<PostResponse>();
+        // Obtener posts aleatorios con paginación y skip
+        List<Post> paginatedRandomPosts = postRepository.findRandomPosts(startIndex, pageSize);
 
-        for (Post post: randomPosts) {
-            randomPostsDTO.add(convertToDTO(post));
+        List<PostResponse> paginatedRandomPostsDTO = new ArrayList<>();
+
+        for (Post post : paginatedRandomPosts) {
+            paginatedRandomPostsDTO.add(convertToDTO(post));
         }
 
-
-
-        return randomPostsDTO;
+        return paginatedRandomPostsDTO;
     }
+
+
 
     public List<Post> getPostsByUserId(Long userId) {
         List<Post> posts = postRepository.findByUser_UserID(userId);
@@ -83,7 +84,6 @@ public class PostService {
 
         UserResponse userResponse = new UserResponse(post.getUser().getUserID(), post.getUser().getUserName());
 
-        String imageToBase64 = ImageService.convertToBase64(post.getImage());
 
         List<CommentResponse> commentResponses = new ArrayList<CommentResponse>();
 
@@ -92,7 +92,7 @@ public class PostService {
             commentResponses.add(commentResponse);
         }
 
-        PostResponse postResponse = new PostResponse(post.getPostID(), post.getTitle(), post.getContent(), post.getCreated_date(),imageToBase64,userResponse,  commentResponses);
+        PostResponse postResponse = new PostResponse(post.getPostID(), post.getTitle(), post.getContent(), post.getCreated_date(),post.getImage(),userResponse,  commentResponses);
 
 
         return postResponse;

@@ -8,19 +8,19 @@ public class PostResponse {
     private String title;
     private String content;
     private Date createdDate;
-    private String imageBase64;
+    private byte[] imageBlob;
     private UserResponse user;
     private List<CommentResponse> comments;
 
     public PostResponse() {
     }
 
-    public PostResponse( long postId, String title, String content, Date createdDate, String imageBase64,UserResponse user, List<CommentResponse> comments) {
+    public PostResponse( long postId, String title, String content, Date createdDate, byte[] imageBlob,UserResponse user, List<CommentResponse> comments) {
         this.postId = postId;
         this.title = title;
         this.content = content;
         this.createdDate = createdDate;
-        this.imageBase64 = imageBase64;
+        this.imageBlob = imageBlob;
         this.user = user;
         this.comments = comments;
     }
@@ -57,12 +57,12 @@ public class PostResponse {
         this.createdDate = createdDate;
     }
 
-    public String getImageBase64() {
-        return imageBase64;
+    public byte[] getImageBlob() {
+        return imageBlob;
     }
 
-    public void setImageBase64(String imageBase64) {
-        this.imageBase64 = imageBase64;
+    public void setImageBlob(byte[] imageBlob) {
+        this.imageBlob = imageBlob;
     }
 
     public UserResponse getUser() {

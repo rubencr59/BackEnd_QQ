@@ -19,8 +19,10 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     @Query(value = "SELECT * FROM Post ORDER BY RAND() LIMIT ?1", nativeQuery = true)
     List<Post> findRandomPosts(int limit);
 
-    @Query(value= "SELECT p FROM Post p ORDER BY p.created_date DESC")
-    List<Post> findPostsOrderByDate();
+
+    @Query(value = "SELECT * FROM Post ORDER BY RAND() LIMIT ?2 OFFSET ?1", nativeQuery = true)
+    List<Post> findRandomPosts(int startIndex, int limit);
+
 
 
 }
