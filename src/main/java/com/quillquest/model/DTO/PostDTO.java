@@ -1,19 +1,21 @@
 package com.quillquest.model.DTO;
 
+import java.util.Date;
+
 public class PostDTO {
 
     private String title;
 
     private String content;
 
-    private String image;
+    private Date createdDate;
 
     private Long userId;
 
-    public PostDTO(String title, String content, String image, Long userId) {
+    public PostDTO(String title, String content, Date createdDate, Long userId) {
         this.title = title;
         this.content = content;
-        this.image = image;
+        this.createdDate = createdDate;
         this.userId = userId;
     }
 
@@ -33,12 +35,12 @@ public class PostDTO {
         this.content = content;
     }
 
-    public String getImage() {
-        return image;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Long getUserId() {

@@ -19,7 +19,7 @@ public class Post {
     public String title;
 
     @Lob
-    @Column(name = "image", columnDefinition = "BLOB")
+    @Column(name = "image", columnDefinition = "LONGBLOB")
     private byte[] image;
 
     @Column(name = "content")
@@ -38,11 +38,11 @@ public class Post {
     public Post() {
     }
 
-    public Post(String title, String content, byte[] image , User user) {
+    public Post(String title, String content,byte[] image ,  Date created_date,  User user) {
         this.title = title;
         this.content = content;
         this.image = image;
-        this.created_date = new Date();
+        this.created_date = created_date;
         this.user = user;
 
     }

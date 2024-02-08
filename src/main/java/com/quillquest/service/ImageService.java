@@ -1,24 +1,22 @@
 package com.quillquest.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Base64;
 
 @Service
 public class ImageService {
 
-    public static byte[] converttoBlob(String image) {
-        String base64Image = image;
-
-        byte[] decodedImage = Base64.getDecoder().decode(base64Image);
-
-
-        return decodedImage;
+    public static byte[] converttoBlob(MultipartFile image) throws IOException {
+        try {
+            byte[] imageByte = image.getBytes();
+            return imageByte;
+        } catch (IOException e) {
+            throw new IOException("Error while converting image to byte array");
+        }
     }
 
-    public static String convertToBase64(byte[] image) {
-        String base64Image = Base64.getEncoder().encodeToString(image);
 
-        return base64Image;
-    }
 }

@@ -7,6 +7,7 @@ import com.quillquest.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,9 +23,9 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Long> createPost(@RequestBody PostDTO postDTO) {
+    public ResponseEntity<Long> createPost(@RequestPart PostDTO postDTO, @RequestPart MultipartFile image) {
         try {
-            Long idPost = postService.createPost(postDTO);
+            Long idPost = postService.createPost(postDTO, image);
             return new ResponseEntity<>(idPost, HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
